@@ -1,7 +1,10 @@
+import asyncio
+import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-TOKEN = "7228581207:AAFop_0X4zKKZgn6GYU5geglAponPq6dZAc"  # Reemplaza con el token de tu bot
+# Lee el TOKEN de la variable de entorno de Render (o usa el por defecto)
+TOKEN = os.environ.get("BOT_TOKEN", "7228581207:AAFop_0X4zKKZgn6GYU5geglAponPq6dZAc")
 ADMIN_CHAT_ID = 6530133583  # Reemplaza con tu chat ID (entero, sin comillas)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -42,4 +45,10 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("ayuda", ayuda))
 
     print("Bot corriendo...")
+    
+    # Crear e iniciar el event loop necesario para versiones recientes de Python en Render
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
     app.run_polling()
+    
